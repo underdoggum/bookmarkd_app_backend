@@ -3,40 +3,34 @@
 //////////////////////////////////////////
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("./db/connection");
+const app = express();
+const { PORT = 3001, DATABASE_URL } = process.env;
+const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
-const { PORT = 6000 } = process.env;
-
-const app = express();
 
 
 //////////////////////////////////////////
-// Database Connection
+// Database connection
 //////////////////////////////////////////
-// establish connection
-mongoose.connect(DATABASE_URL, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true
-})
- 
-// Connection Events
+mongoose.connect(DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true });
+
+// messages
 mongoose.connection
-.on("open", () => console.log("You are connected to Mongo"))
-.on("close", () => console.log("You are disconnected from Mongo"))
-.on("error", (error) => console.log(error))
+  .on("open", () => console.log("Connected to Mongo"))
+  .on("close", () => console.log("Disconnected from Mongo"))
+  .on("error", error => console.log(error));
 
 
 /////////////////////
 // Models
 /////////////////////
-const VarSchema = new mongoose.Schema({
-  var: Value,
-  var: Value,
-  var: Value
-}, {timestamps: true}) // if necessary
+const BookmarkSchema = new mongoose.Schema({
+  title: String,
+  url: String
+}, {timestamps: true})
 
-const Var = mongoose.model("var", VarSchema)
+const Bookmark = mongoose.model("Bookmark", BookmarkSchema)
 
 
 /////////////////////////
@@ -55,10 +49,41 @@ app.get("/", (req, res) => {
   res.send("Hello world!");
 });
 
+// Index route
+app.get("/bookmark", async (req, res) => {
+  try {
+    res.json(await Bookmark.find({}))
+  } catch (error) {
+    res.status(400).json({error})
+  }
+})
 
+// Create route
+app.post("/bookmark", async (req, res) => {
+  try {
+    res.json(await Bookmark.create(req.body))
+  } catch(error) {
+    res.status(400).json({error})
+  }
+})
 
+// update route
+app.put("/bookmark/:id", async (req, res) => {
+  try {
+    res.json(await Bookmark.findByIdAndUpdate(req.params.id, req.body, {new: true}))
+  } catch (error) {
+    res.status(400).json({error})
+  }
+})
 
-
+// Destroy route
+app.delete("/bookmark/:id", async (req, res) => {
+  try {
+    res.json(await Bookmark.findByIdAndRemove(req.params.id, req.body))
+  } catch (error) {
+    res.status(400).json({error});
+  }
+})
 
 
 // listening
