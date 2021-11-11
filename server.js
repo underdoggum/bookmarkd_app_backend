@@ -12,6 +12,42 @@ const app = express();
 
 
 //////////////////////////////////////////
+// Database Connection
+//////////////////////////////////////////
+// establish connection
+mongoose.connect(DATABASE_URL, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+})
+ 
+// Connection Events
+mongoose.connection
+.on("open", () => console.log("You are connected to Mongo"))
+.on("close", () => console.log("You are disconnected from Mongo"))
+.on("error", (error) => console.log(error))
+
+
+/////////////////////
+// Models
+/////////////////////
+const VarSchema = new mongoose.Schema({
+  var: Value,
+  var: Value,
+  var: Value
+}, {timestamps: true}) // if necessary
+
+const Var = mongoose.model("var", VarSchema)
+
+
+/////////////////////////
+// Middleware
+/////////////////////////
+app.use(cors())
+app.use(morgan("dev"))
+app.use(express.json())
+
+
+//////////////////////////////////////////
 // Routes
 //////////////////////////////////////////
 // test route
