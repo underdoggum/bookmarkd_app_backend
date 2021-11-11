@@ -19,7 +19,7 @@ mongoose.connect(DATABASE_URL, {
   useUnifiedTopology: true,
   useNewUrlParser: true
 })
-
+ 
 // Connection Events
 mongoose.connection
 .on("open", () => console.log("You are connected to Mongo"))
