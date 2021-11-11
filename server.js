@@ -6,7 +6,7 @@ const express = require("express");
 const mongoose = require("./db/connection");
 const morgan = require("morgan");
 const cors = require("cors");
-const { PORT = 6000, DATABASE_URL } = process.env;
+const { PORT = 6000 } = process.env;
 
 const app = express();
 
