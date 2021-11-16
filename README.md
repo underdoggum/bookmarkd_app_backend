@@ -1,25 +1,26 @@
-<!-- dependencies, models, backend route table -->
-# Backend
+# Bookmark'd (Back-end)
+## by Jameson Wang, Nathan Noack & Lucy Liu.
 
-## Dependencies
-The required dependencies used:
-- require("dotenv").config();
-- const express = require("express");
-- const app = express();
-- const { PORT = 3001, DATABASE_URL } = process.env;
-- const mongoose = require("mongoose");
-- const morgan = require("morgan");
-- const cors = require("cors");
+## Explanation of App
+This repo includes an API backend that transmits Bookmark model data as JSON for use in the React frontend. Users may create, read, update, or delete data, through this API connected to MongoDB.\
+[Deployed frontend](https://bookmarkd-app-frontend.netlify.app/)\
+[Frontend repo](https://github.com/underdoggum/bookmarkd_app_frontend)\
+[Deployed backend](https://bookmarkd-app-backend.herokuapp.com/)
+
+## Dependencies (NPM modules)
+- Dotenv
+- Express
+- Mongoose
+- Morgan
+- Cors
 
 ## Models
 Models implemented into the bookmark app:
-- title: String
-- url: String
+- Bookmark:
+  - title: String
+  - url: String
 
-## Route table
-
-Listed routes in a table
-
+## CRUD Route Table
 | url | method | action |
 |-----|--------|--------|
 | /bookmark | get | get all books (index)|
